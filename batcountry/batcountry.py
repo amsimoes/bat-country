@@ -9,7 +9,7 @@ import caffe
 import os
 
 class BatCountry:
-	def __init__(self, base_path, deploy_path=None, model_path=None,
+	def __init__(self, base_path, deploy_path, model_path,
 		patch_model="./tmp.prototxt", mean=(104.0, 116.0, 122.0),
 		channels=(2, 1, 0)):
 		# if the deploy path is None, set the default
