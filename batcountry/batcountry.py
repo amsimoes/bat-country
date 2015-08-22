@@ -18,7 +18,7 @@ class BatCountry:
 
 		# if the model path is None, set it to the default GoogleLeNet model
 		if model_path is None:
-			model_path = base_path + "/bvlc_googlenet.caffemodel"
+			model_path = base_path + "/imagenet.caffemodel"
 
 		# check to see if the model should be patched to compute gradients
 		if patch_model:
@@ -34,10 +34,18 @@ class BatCountry:
 			channel_swap=channels)
 		self.patch_model = patch_model
 
-	def dream(self, image, iter_n=10, octave_n=4, octave_scale=1.4,
+	def dream(self, image, iter_n, octave_n, octave_scale=None,
 		end="inception_4c/output", clip=True, step_fn=None, objective_fn=None,
 		preprocess_fn=None, deprocess_fn=None, verbose=True, visualize=False,
 		**step_params):
+		if iter_n is None:
+			iter_n = 10
+
+		if octave_n is None:
+			octave_n = 4
+
+		if octave_scale is None:
+			octave_scale = 1.4
 		# if a step function has not been supplied, initialize it as the
 		# standard gradient ascent step
 		if step_fn is None:
@@ -59,7 +67,7 @@ class BatCountry:
 		# initialize the visualization list
 		visualizations = []
 
-		# prepare base images for all octaves
+		# prepare base image_dims for all octaves
 		octaves = [preprocess_fn(self.net, image)]
 
 		for i in xrange(octave_n - 1):
